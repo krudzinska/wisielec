@@ -1,0 +1,39 @@
+body {
+    background-color: black;
+    color: #fff;
+    display: flex;
+    font-style: italic;
+    justify-content: center;
+}
+
+.container {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    justify-content: space-between;
+    width: 1000px;
+
+    h1 {
+        width: 100%;
+    }
+}
+
+#hang {
+    background-image: url('./images/0.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 450px;
+    width: 450px;
+}
+
+h2 {
+    margin-bottom: 50px;
+}
+
+form {
+    input {
+        margin: 5px;
+    }
+}
