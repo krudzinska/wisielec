@@ -20,12 +20,45 @@ body {
 }
 
 #hang {
-    background-image: url('./images/0.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
     height: 450px;
     width: 450px;
+
+    &.pic0 {
+        background-image: url('./images/0.png');
+    }
+    &.pic1 {
+        background-image: url('./images/1.png');
+    }
+    &.pic2 {
+        background-image: url('./images/2.png');
+    }
+    &.pic3 {
+        background-image: url('./images/3.png');
+    }
+    &.pic4 {
+        background-image: url('./images/4.png');
+    }
+    &.pic5 {
+        background-image: url('./images/5.png');
+    }
+    &.pic6 {
+        background-image: url('./images/6.png');
+    }
+    &.pic7 {
+        background-image: url('./images/7.png');
+    }
+    &.pic8 {
+        background-image: url('./images/8.png');
+    }
+    &.pic9 {
+        background-image: url('./images/9.png');
+    }
+    &.pic10 {
+        background-image: url('./images/10.png');
+    }
 }
 
 h2 {

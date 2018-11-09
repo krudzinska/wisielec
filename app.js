@@ -72,7 +72,7 @@
 
 __webpack_require__(1);
 
-var _passwords = __webpack_require__(8);
+var _passwords = __webpack_require__(18);
 
 //losowanie hasła:
 var password = void 0;
@@ -91,33 +91,89 @@ var strong = document.querySelector('#password');
 
 var showSigns = function showSigns() {
     var newText = "";
-    for (var i = 0; i < password.length; i++) {
+
+    password.split("").forEach(function (element, i) {
         newText += "_";
-    }
+    });
+
+    //for (let i=0; i<password.length; i++) {
+    //    newText += "_";
+    //}
     strong.innerText = newText;
 };
 showSigns();
+
+//sprawdzanie ilości błędów:
+var errors = 0;
+
+var hang = document.querySelector('#hang');
+
+var checkErrors = function checkErrors() {
+    if (errors >= 10) {
+        hang.classList.remove('pic9');
+        hang.classList.add('pic10');
+        strong.innerText = password;
+    }
+    if (errors < 10) {
+        hang.classList.remove('pic' + (errors - 1));
+        hang.classList.add('pic' + errors);
+    }
+};
 
 //obsługa formularza:
 
 document.querySelector('form').addEventListener("click", function (e) {
     e.preventDefault();
 });
-
+//sprawdzanie litery:
 document.querySelector('#buttonLetter').addEventListener("click", function () {
     var letter = document.querySelector('#letter').value;
     var text = strong.innerText.split("");
 
-    for (var i = 0; i < password.length; i++) {
-        if (password[i].indexOf(letter) != -1) {
-            text[i] = letter;
-        }
+    if (letter.length > 1) {
+        alert('Wpisz tylko jeden znak!');
     }
-    strong.innerText = text.join("");
-});
+    if (letter.length === 1) {
+        var counter = 0;
+        password.split("").forEach(function (element, i) {
+            if (element === letter) {
+                text[i] = letter;
+                counter += 1;
+            }
+        });
 
+        strong.innerText = text.join("");
+
+        if (counter === 0) {
+            alert('Nie ma takiej litery');
+            errors += 1;
+            checkErrors();
+        }
+        //for (let i=0; i<password.length; i++) {
+        //    if (password[i].indexOf(letter) != -1){
+        //        text[i] = letter;
+        //    }
+        //}
+    }
+    document.querySelector('#letter').value = "";
+});
+//sprawdzanie hasła:
 document.querySelector('#buttonPassword').addEventListener("click", function () {
-    console.log("Klikam wyraz");
+
+    var word = document.querySelector('#word').value;
+
+    if (word.length > 1) {
+        if (word === password) {
+            strong.innerText = password;
+            alert("Super! Zgadłeś hasło!");
+        }
+        if (word !== password) {
+            alert("Niestety to nie to hasło :(");
+            errors += 1;
+            checkErrors();
+        }
+        document.querySelector('#word').value = "";
+    }
 });
 
 /***/ }),
@@ -135,7 +191,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(6)(content, options);
+var update = __webpack_require__(16)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -161,7 +217,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  width: 100%;\n}\n\n#hang {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nh2 strong {\n  padding-left: 12px;\n  letter-spacing: 10px;\n}\n\nform input {\n  margin: 5px;\n}", ""]);
+exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  width: 100%;\n}\n\n#hang {\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\n#hang.pic0 {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n}\n\n#hang.pic1 {\n  background-image: url(" + escape(__webpack_require__(6)) + ");\n}\n\n#hang.pic2 {\n  background-image: url(" + escape(__webpack_require__(7)) + ");\n}\n\n#hang.pic3 {\n  background-image: url(" + escape(__webpack_require__(8)) + ");\n}\n\n#hang.pic4 {\n  background-image: url(" + escape(__webpack_require__(9)) + ");\n}\n\n#hang.pic5 {\n  background-image: url(" + escape(__webpack_require__(10)) + ");\n}\n\n#hang.pic6 {\n  background-image: url(" + escape(__webpack_require__(11)) + ");\n}\n\n#hang.pic7 {\n  background-image: url(" + escape(__webpack_require__(12)) + ");\n}\n\n#hang.pic8 {\n  background-image: url(" + escape(__webpack_require__(13)) + ");\n}\n\n#hang.pic9 {\n  background-image: url(" + escape(__webpack_require__(14)) + ");\n}\n\n#hang.pic10 {\n  background-image: url(" + escape(__webpack_require__(15)) + ");\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nh2 strong {\n  padding-left: 12px;\n  letter-spacing: 10px;\n}\n\nform input {\n  margin: 5px;\n}", ""]);
 
 // exports
 
@@ -280,6 +336,66 @@ module.exports = __webpack_require__.p + "2a7467abba5c420c409fa9abe31376de.png";
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__.p + "fbf108ddeef763ad979b791a8c50fd0f.png";
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "ee84edc1fa7e68634c1b6e5275894885.png";
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "e9f95f826e41a35def427da1911f3080.png";
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "e179be620144f2f2828e544bf696f5ff.png";
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "96a05c77730103eb3c0d108bcdd69d83.png";
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "c74bfdd3304959998f3668819a9ba876.png";
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "49436f4fa82b1f75806e442ccb5911b3.png";
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "8135fc1dc60adc61b4cf031832256f63.png";
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "11f584618710ab6dca32050bb7c38645.png";
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "eff9283de7cacd2191ebed7a34ce2276.png";
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
@@ -333,7 +449,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(7);
+var	fixUrls = __webpack_require__(17);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -649,7 +765,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 7 */
+/* 17 */
 /***/ (function(module, exports) {
 
 
@@ -744,7 +860,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 8 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
