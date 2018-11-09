@@ -74,10 +74,16 @@ __webpack_require__(1);
 
 var _passwords = __webpack_require__(18);
 
-var strong = document.querySelector('#password');
+var strongPassword = document.querySelector('#password');
 var hang = document.querySelector('#hang');
-var newGame = document.querySelector('#newGameBtn');
+var newGameBtn = document.querySelector('#newGameBtn');
+var resetBtn = document.querySelector('#reset');
 var comments = document.querySelector('#comment');
+var strongWins = document.querySelector('#wins');
+var strongLosts = document.querySelector('#losts');
+var signsList = document.querySelector('#listofsigns');
+var wins = 0;
+var losts = 0;
 
 //losowanie hasła:
 var password = void 0;
@@ -88,6 +94,8 @@ var randomPassword = function randomPassword() {
     return password;
 };
 randomPassword();
+
+//console.log(password);
 
 //wyświetlanie ilości znaków:
 var showSigns = function showSigns() {
@@ -100,7 +108,7 @@ var showSigns = function showSigns() {
     //for (let i=0; i<password.length; i++) {
     //    newText += "_";
     //}
-    strong.innerText = newText;
+    strongPassword.innerText = newText;
 };
 showSigns();
 
@@ -112,8 +120,10 @@ var checkErrors = function checkErrors() {
         hang.removeAttribute("class");
         hang.classList.add('pic0');
     }
-    if (errors >= 10) {
-        strong.innerText = password;
+    if (errors === 10) {
+        strongPassword.innerText = password;
+        losts += 1;
+        strongLosts.innerText = losts;
     }
     if (errors <= 10) {
         hang.classList.remove('pic' + (errors - 1));
@@ -128,7 +138,7 @@ document.querySelector('form').addEventListener("click", function (e) {
 //sprawdzanie litery:
 document.querySelector('#buttonLetter').addEventListener("click", function () {
     var letter = document.querySelector('#letter').value;
-    var text = strong.innerText.split("");
+    var text = strongPassword.innerText.split("");
 
     if (letter.length > 1) {
         comment.innerText = 'Wpisz tylko jeden znak!';
@@ -142,7 +152,7 @@ document.querySelector('#buttonLetter').addEventListener("click", function () {
             }
         });
 
-        strong.innerText = text.join("");
+        strongPassword.innerText = text.join("");
 
         comment.innerText = 'Zgaduj dalej!';
 
@@ -157,6 +167,7 @@ document.querySelector('#buttonLetter').addEventListener("click", function () {
         //    }
         //}
     }
+    signsList.innerText += letter + ' ';
     document.querySelector('#letter').value = "";
 });
 //sprawdzanie hasła:
@@ -166,8 +177,10 @@ document.querySelector('#buttonPassword').addEventListener("click", function () 
 
     if (word.length > 1) {
         if (word === password) {
-            strong.innerText = password;
+            strongPassword.innerText = password;
             comment.innerText = "Super! Zgadłeś hasło!";
+            wins += 1;
+            strongWins.innerText = wins;
         }
         if (word !== password) {
             comment.innerText = "Niestety to nie to hasło :(";
@@ -179,12 +192,24 @@ document.querySelector('#buttonPassword').addEventListener("click", function () 
 });
 
 //nowa gra:
-newGame.addEventListener("click", function () {
+var newGame = function newGame() {
+    signsList.innerText = "";
     randomPassword();
     showSigns();
     errors = 0;
     checkErrors();
     comment.innerText = 'Zgadnij hasło!';
+};
+
+newGameBtn.addEventListener("click", newGame);
+
+//reset:
+resetBtn.addEventListener("click", function () {
+    newGame();
+    wins = 0;
+    losts = 0;
+    strongLosts.innerText = losts;
+    strongWins.innerText = wins;
 });
 
 /***/ }),
@@ -228,7 +253,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  font-size: 48px;\n  width: 100%;\n}\n\n.container .tip {\n  font-size: 20px;\n  color: red;\n}\n\n#hang {\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\n#hang.pic0 {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n}\n\n#hang.pic1 {\n  background-image: url(" + escape(__webpack_require__(6)) + ");\n}\n\n#hang.pic2 {\n  background-image: url(" + escape(__webpack_require__(7)) + ");\n}\n\n#hang.pic3 {\n  background-image: url(" + escape(__webpack_require__(8)) + ");\n}\n\n#hang.pic4 {\n  background-image: url(" + escape(__webpack_require__(9)) + ");\n}\n\n#hang.pic5 {\n  background-image: url(" + escape(__webpack_require__(10)) + ");\n}\n\n#hang.pic6 {\n  background-image: url(" + escape(__webpack_require__(11)) + ");\n}\n\n#hang.pic7 {\n  background-image: url(" + escape(__webpack_require__(12)) + ");\n}\n\n#hang.pic8 {\n  background-image: url(" + escape(__webpack_require__(13)) + ");\n}\n\n#hang.pic9 {\n  background-image: url(" + escape(__webpack_require__(14)) + ");\n}\n\n#hang.pic10 {\n  background-image: url(" + escape(__webpack_require__(15)) + ");\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nh2 strong {\n  padding-left: 12px;\n  letter-spacing: 10px;\n}\n\nform input {\n  margin: 5px;\n}\n\nbutton {\n  border-radius: 5px;\n  height: 30px;\n  margin: 50px 0;\n  width: 100px;\n}", ""]);
+exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  font-size: 48px;\n  width: 100%;\n}\n\n.container .tip {\n  font-size: 20px;\n  color: red;\n}\n\n.score {\n  color: #ffe766;\n}\n\n#hang {\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\n#hang.pic0 {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n}\n\n#hang.pic1 {\n  background-image: url(" + escape(__webpack_require__(6)) + ");\n}\n\n#hang.pic2 {\n  background-image: url(" + escape(__webpack_require__(7)) + ");\n}\n\n#hang.pic3 {\n  background-image: url(" + escape(__webpack_require__(8)) + ");\n}\n\n#hang.pic4 {\n  background-image: url(" + escape(__webpack_require__(9)) + ");\n}\n\n#hang.pic5 {\n  background-image: url(" + escape(__webpack_require__(10)) + ");\n}\n\n#hang.pic6 {\n  background-image: url(" + escape(__webpack_require__(11)) + ");\n}\n\n#hang.pic7 {\n  background-image: url(" + escape(__webpack_require__(12)) + ");\n}\n\n#hang.pic8 {\n  background-image: url(" + escape(__webpack_require__(13)) + ");\n}\n\n#hang.pic9 {\n  background-image: url(" + escape(__webpack_require__(14)) + ");\n}\n\n#hang.pic10 {\n  background-image: url(" + escape(__webpack_require__(15)) + ");\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nh2 strong {\n  padding-left: 12px;\n  letter-spacing: 10px;\n}\n\nform input {\n  margin: 5px;\n}\n\nbutton {\n  border-radius: 5px;\n  height: 30px;\n  margin: 50px 0;\n  width: 100px;\n}", ""]);
 
 // exports
 
@@ -880,7 +905,7 @@ module.exports = function (css) {
 Object.defineProperty(exports, "__esModule", {
         value: true
 });
-var passwords = exports.passwords = [{ name: "eremita" }, { name: "konformizm" }, { name: "harpagon" }, { name: "pretensjonalny" }, { name: "hummus" }, { name: "eskapizm" }, { name: "demagogia" }, { name: "antropomorfizm" }, { name: "paradoks" }, { name: "wykusz" }, { name: "apopleksja" }, { name: "eteryczny" }, { name: "utracjusz" }, { name: "mitrężyć" }, { name: "dekadencja" }, { name: "imponderabilia" }, { name: "prokrastynacja" }, { name: "egzaltacja" }];
+var passwords = exports.passwords = [{ name: "eremita" }, { name: "konformizm" }, { name: "harpagon" }, { name: "pretensjonalny" }, { name: "hummus" }, { name: "eskapizm" }, { name: "demagogia" }, { name: "antropomorfizm" }, { name: "paradoks" }, { name: "wykusz" }, { name: "apopleksja" }, { name: "eteryczny" }, { name: "utracjusz" }, { name: "mitrężyć" }, { name: "dekadencja" }, { name: "imponderabilia" }, { name: "prokrastynacja" }, { name: "egzaltacja" }, { name: "imputować" }, { name: "personifikacja" }, { name: "śryż" }, { name: "trychotomia" }, { name: "kuriozum" }, { name: "majuskuła" }, { name: "szezlong" }];
 
 /***/ })
 /******/ ]);

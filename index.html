@@ -9,13 +9,16 @@
         <h1>Gra Wisielec</h1>
 
         <section id='board'>
+            <h2 class="score">Twój wynik <strong id="wins">0</strong> : <strong id="losts">0</strong></h2>
             <strong id="comment" class="tip">Zgadnij hasło!</strong>
             <h2>Hasło: <strong id='password'></strong></h2>
             <form>
                 Podaję literę: <input type="text" name="letter" id="letter"><input type="submit" value="Sprawdź!" id="buttonLetter"><br>
                 Podaję hasło: <input type="text" name="word" id="word"><input type="submit" value="Sprawdź!" id="buttonPassword"><br>
             </form>
-            <button type="button" id="newGameBtn">Nowa gra</button>
+            <h4>Sprawdzałeś już: <strong id="listofsigns"></strong></h4>
+            <button type="button" id="newGameBtn">Nowe słowo</button>
+            <button type="button" id="reset">Reset</button>
         </section>
 
         <section id='picture'>

@@ -17,4 +17,11 @@ export const passwords = [
         {name: "imponderabilia"},
         {name: "prokrastynacja"},
         {name: "egzaltacja"},
+        {name: "imputować"},
+        {name: "personifikacja"},
+        {name: "śryż"},
+        {name: "trychotomia"},
+        {name: "kuriozum"},
+        {name: "majuskuła"},
+        {name: "szezlong"}
 ];

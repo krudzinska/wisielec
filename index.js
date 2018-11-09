@@ -1,10 +1,16 @@
 import './style.scss';
 import { passwords } from './passwords';
 
-const strong = document.querySelector('#password');
+const strongPassword = document.querySelector('#password');
 const hang = document.querySelector('#hang');
-const newGame = document.querySelector('#newGameBtn');
+const newGameBtn = document.querySelector('#newGameBtn');
+const resetBtn = document.querySelector('#reset');
 const comments = document.querySelector('#comment');
+const strongWins = document.querySelector('#wins');
+const strongLosts = document.querySelector('#losts');
+const signsList = document.querySelector('#listofsigns');
+let wins = 0;
+let losts = 0;
 
 //losowanie hasła:
 let password;
@@ -15,6 +21,8 @@ const randomPassword = () => {
     return password
 }
 randomPassword();
+
+//console.log(password);
 
 //wyświetlanie ilości znaków:
 const showSigns = () => {
@@ -27,7 +35,7 @@ const showSigns = () => {
     //for (let i=0; i<password.length; i++) {
     //    newText += "_";
     //}
-    strong.innerText = newText;
+    strongPassword.innerText = newText;
 }
 showSigns();
 
@@ -39,8 +47,10 @@ const checkErrors = () => {
         hang.removeAttribute("class");
         hang.classList.add('pic0');
     }
-    if (errors >= 10) {
-        strong.innerText = password;
+    if (errors === 10) {
+        strongPassword.innerText = password;
+        losts += 1;
+        strongLosts.innerText = losts;
     }
     if (errors <= 10) {
         hang.classList.remove(`pic${errors - 1}`);
@@ -55,7 +65,7 @@ document.querySelector('form').addEventListener("click", function(e){
     //sprawdzanie litery:
 document.querySelector('#buttonLetter').addEventListener("click", function(){
     let letter = document.querySelector('#letter').value;
-    let text = strong.innerText.split("");
+    let text = strongPassword.innerText.split("");
 
     if (letter.length > 1) {
         comment.innerText = 'Wpisz tylko jeden znak!';
@@ -69,7 +79,7 @@ document.querySelector('#buttonLetter').addEventListener("click", function(){
             }
         });
 
-        strong.innerText = text.join("");
+        strongPassword.innerText = text.join("");
 
         comment.innerText = 'Zgaduj dalej!'
 
@@ -84,6 +94,7 @@ document.querySelector('#buttonLetter').addEventListener("click", function(){
         //    }
         //}
     }
+    signsList.innerText += `${letter} `;
     document.querySelector('#letter').value = "";
 });
     //sprawdzanie hasła:
@@ -93,8 +104,10 @@ document.querySelector('#buttonPassword').addEventListener("click", function(){
 
     if (word.length > 1) {
         if (word === password) {
-            strong.innerText = password;
+            strongPassword.innerText = password;
             comment.innerText = "Super! Zgadłeś hasło!";
+            wins += 1;
+            strongWins.innerText = wins;
         }
         if (word !== password) {
             comment.innerText = "Niestety to nie to hasło :(";
@@ -107,10 +120,22 @@ document.querySelector('#buttonPassword').addEventListener("click", function(){
 });
 
 //nowa gra:
-newGame.addEventListener("click", function(){
+const newGame = () => {
+    signsList.innerText = "";
     randomPassword();
     showSigns();
     errors = 0;
     checkErrors();
     comment.innerText = 'Zgadnij hasło!'
+}
+
+newGameBtn.addEventListener("click", newGame);
+
+//reset:
+resetBtn.addEventListener("click", function(){
+    newGame();
+    wins = 0;
+    losts = 0;
+    strongLosts.innerText = losts;
+    strongWins.innerText = wins;
 });
