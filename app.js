@@ -72,6 +72,54 @@
 
 __webpack_require__(1);
 
+var _passwords = __webpack_require__(8);
+
+//losowanie hasła:
+var password = void 0;
+
+var randomPassword = function randomPassword() {
+    var number = Math.round(Math.random() * (_passwords.passwords.length - 1));
+    password = _passwords.passwords[number].name;
+    return password;
+};
+randomPassword();
+
+console.log(password);
+
+//wyświetlanie ilości znaków:
+var strong = document.querySelector('#password');
+
+var showSigns = function showSigns() {
+    var newText = "";
+    for (var i = 0; i < password.length; i++) {
+        newText += "_";
+    }
+    strong.innerText = newText;
+};
+showSigns();
+
+//obsługa formularza:
+
+document.querySelector('form').addEventListener("click", function (e) {
+    e.preventDefault();
+});
+
+document.querySelector('#buttonLetter').addEventListener("click", function () {
+    var letter = document.querySelector('#letter').value;
+    var text = strong.innerText.split("");
+
+    for (var i = 0; i < password.length; i++) {
+        if (password[i].indexOf(letter) != -1) {
+            text[i] = letter;
+        }
+    }
+    strong.innerText = text.join("");
+});
+
+document.querySelector('#buttonPassword').addEventListener("click", function () {
+    console.log("Klikam wyraz");
+});
+
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -113,7 +161,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  width: 100%;\n}\n\n#hang {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nform input {\n  margin: 5px;\n}", ""]);
+exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  width: 100%;\n}\n\n#hang {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nh2 strong {\n  padding-left: 12px;\n  letter-spacing: 10px;\n}\n\nform input {\n  margin: 5px;\n}", ""]);
 
 // exports
 
@@ -694,6 +742,18 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+        value: true
+});
+var passwords = exports.passwords = [{ name: "eremita" }, { name: "konformizm" }, { name: "harpagon" }, { name: "pretensjonalny" }, { name: "hummus" }, { name: "eskapizm" }, { name: "demagogia" }, { name: "antropomorfizm" }, { name: "paradoks" }, { name: "wykusz" }, { name: "apopleksja" }, { name: "eteryczny" }, { name: "utracjusz" }, { name: "mitrężyć" }, { name: "dekadencja" }, { name: "imponderabilia" }, { name: "prokrastynacja" }, { name: "egzaltacja" }];
 
 /***/ })
 /******/ ]);
