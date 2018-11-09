@@ -1,6 +1,11 @@
 import './style.scss';
 import { passwords } from './passwords';
 
+const strong = document.querySelector('#password');
+const hang = document.querySelector('#hang');
+const newGame = document.querySelector('#newGameBtn');
+const comments = document.querySelector('#comment');
+
 //losowanie hasła:
 let password;
 
@@ -11,11 +16,7 @@ const randomPassword = () => {
 }
 randomPassword();
 
-console.log(password);
-
 //wyświetlanie ilości znaków:
-const strong = document.querySelector('#password');
-
 const showSigns = () => {
     let newText = "";
 
@@ -33,22 +34,21 @@ showSigns();
 //sprawdzanie ilości błędów:
 let errors = 0;
 
-const hang = document.querySelector('#hang');
-
 const checkErrors = () => {
+    if (errors === 0) {
+        hang.removeAttribute("class");
+        hang.classList.add('pic0');
+    }
     if (errors >= 10) {
-        hang.classList.remove(`pic9`);
-        hang.classList.add(`pic10`);
         strong.innerText = password;
     }
-    if (errors < 10) {
+    if (errors <= 10) {
         hang.classList.remove(`pic${errors - 1}`);
         hang.classList.add(`pic${errors}`);
     }
 }
 
 //obsługa formularza:
-
 document.querySelector('form').addEventListener("click", function(e){
     e.preventDefault()
 });
@@ -58,7 +58,7 @@ document.querySelector('#buttonLetter').addEventListener("click", function(){
     let text = strong.innerText.split("");
 
     if (letter.length > 1) {
-        alert('Wpisz tylko jeden znak!');
+        comment.innerText = 'Wpisz tylko jeden znak!';
     }
     if (letter.length === 1) {
         let counter = 0;
@@ -71,8 +71,10 @@ document.querySelector('#buttonLetter').addEventListener("click", function(){
 
         strong.innerText = text.join("");
 
+        comment.innerText = 'Zgaduj dalej!'
+
         if (counter === 0) {
-            alert('Nie ma takiej litery');
+            comment.innerText = 'Nie ma takiej litery';
             errors += 1;
             checkErrors();
         }
@@ -92,14 +94,23 @@ document.querySelector('#buttonPassword').addEventListener("click", function(){
     if (word.length > 1) {
         if (word === password) {
             strong.innerText = password;
-            alert("Super! Zgadłeś hasło!");
+            comment.innerText = "Super! Zgadłeś hasło!";
         }
         if (word !== password) {
-            alert("Niestety to nie to hasło :(");
+            comment.innerText = "Niestety to nie to hasło :(";
             errors += 1;
             checkErrors();
         }
         document.querySelector('#word').value = "";
     }
 
+});
+
+//nowa gra:
+newGame.addEventListener("click", function(){
+    randomPassword();
+    showSigns();
+    errors = 0;
+    checkErrors();
+    comment.innerText = 'Zgadnij hasło!'
 });

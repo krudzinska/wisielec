@@ -74,6 +74,11 @@ __webpack_require__(1);
 
 var _passwords = __webpack_require__(18);
 
+var strong = document.querySelector('#password');
+var hang = document.querySelector('#hang');
+var newGame = document.querySelector('#newGameBtn');
+var comments = document.querySelector('#comment');
+
 //losowanie hasła:
 var password = void 0;
 
@@ -84,11 +89,7 @@ var randomPassword = function randomPassword() {
 };
 randomPassword();
 
-console.log(password);
-
 //wyświetlanie ilości znaków:
-var strong = document.querySelector('#password');
-
 var showSigns = function showSigns() {
     var newText = "";
 
@@ -106,22 +107,21 @@ showSigns();
 //sprawdzanie ilości błędów:
 var errors = 0;
 
-var hang = document.querySelector('#hang');
-
 var checkErrors = function checkErrors() {
+    if (errors === 0) {
+        hang.removeAttribute("class");
+        hang.classList.add('pic0');
+    }
     if (errors >= 10) {
-        hang.classList.remove('pic9');
-        hang.classList.add('pic10');
         strong.innerText = password;
     }
-    if (errors < 10) {
+    if (errors <= 10) {
         hang.classList.remove('pic' + (errors - 1));
         hang.classList.add('pic' + errors);
     }
 };
 
 //obsługa formularza:
-
 document.querySelector('form').addEventListener("click", function (e) {
     e.preventDefault();
 });
@@ -131,7 +131,7 @@ document.querySelector('#buttonLetter').addEventListener("click", function () {
     var text = strong.innerText.split("");
 
     if (letter.length > 1) {
-        alert('Wpisz tylko jeden znak!');
+        comment.innerText = 'Wpisz tylko jeden znak!';
     }
     if (letter.length === 1) {
         var counter = 0;
@@ -144,8 +144,10 @@ document.querySelector('#buttonLetter').addEventListener("click", function () {
 
         strong.innerText = text.join("");
 
+        comment.innerText = 'Zgaduj dalej!';
+
         if (counter === 0) {
-            alert('Nie ma takiej litery');
+            comment.innerText = 'Nie ma takiej litery';
             errors += 1;
             checkErrors();
         }
@@ -165,15 +167,24 @@ document.querySelector('#buttonPassword').addEventListener("click", function () 
     if (word.length > 1) {
         if (word === password) {
             strong.innerText = password;
-            alert("Super! Zgadłeś hasło!");
+            comment.innerText = "Super! Zgadłeś hasło!";
         }
         if (word !== password) {
-            alert("Niestety to nie to hasło :(");
+            comment.innerText = "Niestety to nie to hasło :(";
             errors += 1;
             checkErrors();
         }
         document.querySelector('#word').value = "";
     }
+});
+
+//nowa gra:
+newGame.addEventListener("click", function () {
+    randomPassword();
+    showSigns();
+    errors = 0;
+    checkErrors();
+    comment.innerText = 'Zgadnij hasło!';
 });
 
 /***/ }),
@@ -217,7 +228,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  width: 100%;\n}\n\n#hang {\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\n#hang.pic0 {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n}\n\n#hang.pic1 {\n  background-image: url(" + escape(__webpack_require__(6)) + ");\n}\n\n#hang.pic2 {\n  background-image: url(" + escape(__webpack_require__(7)) + ");\n}\n\n#hang.pic3 {\n  background-image: url(" + escape(__webpack_require__(8)) + ");\n}\n\n#hang.pic4 {\n  background-image: url(" + escape(__webpack_require__(9)) + ");\n}\n\n#hang.pic5 {\n  background-image: url(" + escape(__webpack_require__(10)) + ");\n}\n\n#hang.pic6 {\n  background-image: url(" + escape(__webpack_require__(11)) + ");\n}\n\n#hang.pic7 {\n  background-image: url(" + escape(__webpack_require__(12)) + ");\n}\n\n#hang.pic8 {\n  background-image: url(" + escape(__webpack_require__(13)) + ");\n}\n\n#hang.pic9 {\n  background-image: url(" + escape(__webpack_require__(14)) + ");\n}\n\n#hang.pic10 {\n  background-image: url(" + escape(__webpack_require__(15)) + ");\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nh2 strong {\n  padding-left: 12px;\n  letter-spacing: 10px;\n}\n\nform input {\n  margin: 5px;\n}", ""]);
+exports.push([module.i, "body {\n  background-color: black;\n  color: #fff;\n  display: flex;\n  font-style: italic;\n  justify-content: center;\n}\n\n.container {\n  align-items: center;\n  display: flex;\n  flex-wrap: wrap;\n  height: 100vh;\n  justify-content: space-between;\n  width: 1000px;\n}\n\n.container h1 {\n  font-size: 48px;\n  width: 100%;\n}\n\n.container .tip {\n  font-size: 20px;\n  color: red;\n}\n\n#hang {\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: contain;\n  height: 450px;\n  width: 450px;\n}\n\n#hang.pic0 {\n  background-image: url(" + escape(__webpack_require__(5)) + ");\n}\n\n#hang.pic1 {\n  background-image: url(" + escape(__webpack_require__(6)) + ");\n}\n\n#hang.pic2 {\n  background-image: url(" + escape(__webpack_require__(7)) + ");\n}\n\n#hang.pic3 {\n  background-image: url(" + escape(__webpack_require__(8)) + ");\n}\n\n#hang.pic4 {\n  background-image: url(" + escape(__webpack_require__(9)) + ");\n}\n\n#hang.pic5 {\n  background-image: url(" + escape(__webpack_require__(10)) + ");\n}\n\n#hang.pic6 {\n  background-image: url(" + escape(__webpack_require__(11)) + ");\n}\n\n#hang.pic7 {\n  background-image: url(" + escape(__webpack_require__(12)) + ");\n}\n\n#hang.pic8 {\n  background-image: url(" + escape(__webpack_require__(13)) + ");\n}\n\n#hang.pic9 {\n  background-image: url(" + escape(__webpack_require__(14)) + ");\n}\n\n#hang.pic10 {\n  background-image: url(" + escape(__webpack_require__(15)) + ");\n}\n\nh2 {\n  margin-bottom: 50px;\n}\n\nh2 strong {\n  padding-left: 12px;\n  letter-spacing: 10px;\n}\n\nform input {\n  margin: 5px;\n}\n\nbutton {\n  border-radius: 5px;\n  height: 30px;\n  margin: 50px 0;\n  width: 100px;\n}", ""]);
 
 // exports
 
