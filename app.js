@@ -72,8 +72,6 @@
 
 __webpack_require__(1);
 
-var _passwords = __webpack_require__(18);
-
 var strongPassword = document.querySelector('#password');
 var hang = document.querySelector('#hang');
 var newGameBtn = document.querySelector('#newGameBtn');
@@ -84,18 +82,46 @@ var strongLosts = document.querySelector('#losts');
 var signsList = document.querySelector('#listofsigns');
 var wins = 0;
 var losts = 0;
-
-//losowanie hasła:
 var password = void 0;
+var tab = [];
 
-var randomPassword = function randomPassword() {
-    var number = Math.round(Math.random() * (_passwords.passwords.length - 1));
-    password = _passwords.passwords[number].name;
+//Pobieranie hasła z API:
+function listsWord(words) {
+    for (var key in words) {
+        tab.push(key);
+    }
+    return tab;
+}
+
+function loadWord() {
+    $.ajax({
+        url: 'https://dog.ceo/api/breeds/list/all'
+    }).done(function (response) {
+        listsWord(response.message);
+        randomWord();
+        showSigns();
+    }).fail(function (error) {
+        console.log(error);
+    });
+}
+loadWord();
+
+var randomWord = function randomWord() {
+    var number = Math.round(Math.random() * (tab.length - 1));
+    password = tab[number];
     return password;
 };
-randomPassword();
 
-//console.log(password);
+//2 sposób - losowanie hasła z pliku passwords:
+//import { tab } from './passwords';
+
+//const randomWord = () => {
+//    const number = Math.round(Math.random()*(tab.length-1));
+//    password = tab[number].name;
+//    return password
+//}
+//randomWord();
+
 
 //wyświetlanie ilości znaków:
 var showSigns = function showSigns() {
@@ -105,12 +131,9 @@ var showSigns = function showSigns() {
         newText += "_";
     });
 
-    //for (let i=0; i<password.length; i++) {
-    //    newText += "_";
-    //}
     strongPassword.innerText = newText;
 };
-showSigns();
+//showSigns(); //przy 2 sposobie należy jeszcze wywołac funkcje.
 
 //sprawdzanie ilości błędów:
 var errors = 0;
@@ -194,7 +217,7 @@ document.querySelector('#buttonPassword').addEventListener("click", function () 
 //nowa gra:
 var newGame = function newGame() {
     signsList.innerText = "";
-    randomPassword();
+    randomWord();
     showSigns();
     errors = 0;
     checkErrors();
@@ -894,18 +917,6 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-        value: true
-});
-var passwords = exports.passwords = [{ name: "eremita" }, { name: "konformizm" }, { name: "harpagon" }, { name: "pretensjonalny" }, { name: "hummus" }, { name: "eskapizm" }, { name: "demagogia" }, { name: "antropomorfizm" }, { name: "paradoks" }, { name: "wykusz" }, { name: "apopleksja" }, { name: "eteryczny" }, { name: "utracjusz" }, { name: "mitrężyć" }, { name: "dekadencja" }, { name: "imponderabilia" }, { name: "prokrastynacja" }, { name: "egzaltacja" }, { name: "imputować" }, { name: "personifikacja" }, { name: "śryż" }, { name: "trychotomia" }, { name: "kuriozum" }, { name: "majuskuła" }, { name: "szezlong" }];
 
 /***/ })
 /******/ ]);

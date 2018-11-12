@@ -1,5 +1,4 @@
 import './style.scss';
-import { passwords } from './passwords';
 
 const strongPassword = document.querySelector('#password');
 const hang = document.querySelector('#hang');
@@ -11,18 +10,46 @@ const strongLosts = document.querySelector('#losts');
 const signsList = document.querySelector('#listofsigns');
 let wins = 0;
 let losts = 0;
-
-//losowanie hasła:
 let password;
+let tab = [];
 
-const randomPassword = () => {
-    const number = Math.round(Math.random()*(passwords.length-1));
-    password = passwords[number].name;
+//Pobieranie hasła z API:
+function listsWord(words) {
+    for (const key in words) {
+        tab.push(key);
+    }
+    return tab;
+}
+
+function loadWord() {
+          $.ajax({
+              url: 'https://dog.ceo/api/breeds/list/all',
+          }).done(function(response){
+            listsWord(response.message);
+            randomWord();
+            showSigns();
+      	 }).fail(function(error) {
+             console.log(error);
+         })
+    }
+loadWord();
+
+const randomWord = () => {
+    const number = Math.round(Math.random()*(tab.length-1));
+    password = tab[number];
     return password
 }
-randomPassword();
 
-//console.log(password);
+//2 sposób - losowanie hasła z pliku passwords:
+//import { tab } from './passwords';
+
+//const randomWord = () => {
+//    const number = Math.round(Math.random()*(tab.length-1));
+//    password = tab[number].name;
+//    return password
+//}
+//randomWord();
+
 
 //wyświetlanie ilości znaków:
 const showSigns = () => {
@@ -32,12 +59,9 @@ const showSigns = () => {
         newText += "_";
     });
 
-    //for (let i=0; i<password.length; i++) {
-    //    newText += "_";
-    //}
     strongPassword.innerText = newText;
 }
-showSigns();
+//showSigns(); //przy 2 sposobie należy jeszcze wywołac funkcje.
 
 //sprawdzanie ilości błędów:
 let errors = 0;
@@ -122,7 +146,7 @@ document.querySelector('#buttonPassword').addEventListener("click", function(){
 //nowa gra:
 const newGame = () => {
     signsList.innerText = "";
-    randomPassword();
+    randomWord();
     showSigns();
     errors = 0;
     checkErrors();

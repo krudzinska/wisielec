@@ -1,4 +1,4 @@
-export const passwords = [
+export const tab = [
         {name: "eremita"},
         {name: "konformizm"},
         {name: "harpagon"},
